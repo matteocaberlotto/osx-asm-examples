@@ -1,0 +1,20 @@
+NASM=/usr/local/Cellar/nasm/2.13.01/bin/nasm
+EXECUTABLE=hello
+DEBUG_EXEC=hello_dbg
+SOURCE_FILE=./hello.asm
+OBJECT_FILE=hello.o
+DEBUG_OBJECT_FILE=hello_dbg.o
+OPTIONS=-fmacho64
+
+$(EXECUTABLE): $(OBJECT_FILE)
+	gcc -o $(EXECUTABLE) $(OBJECT_FILE)
+
+$(OBJECT_FILE): $(SOURCE_FILE)
+	$(NASM) $(OPTIONS) -o $(OBJECT_FILE) $(SOURCE_FILE)
+
+clean:
+	rm $(EXECUTABLE) $(DEBUG_EXEC) *.o
+
+debug:
+	$(NASM) -g $(OPTIONS) -o $(DEBUG_OBJECT_FILE) $(SOURCE_FILE)
+	gcc $(DEBUG_OBJECT_FILE) -o $(DEBUG_EXEC)
